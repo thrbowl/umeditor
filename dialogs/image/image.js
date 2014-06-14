@@ -138,13 +138,16 @@
      * */
     var Upload = {
         showCount: 0,
-        uploadTpl: '<div class="edui-image-upload%%">' +
-            '<span class="edui-image-icon"></span>' +
-            '<form class="edui-image-form" method="post" enctype="multipart/form-data" target="up">' +
-            '<input style=\"filter: alpha(opacity=0);\" class="edui-image-file" type="file" hidefocus name="upfile" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"/>' +
-            '</form>' +
+        createUpForm: function(i) {
+            var me = this;
 
-            '</div>',
+            return '<div class="edui-image-upload' + i + '">' +
+                '<span class="edui-image-icon"></span>' +
+                '<form class="edui-image-form" method="post" enctype="multipart/form-data" target="up">' +
+                '<input style=\"filter: alpha(opacity=0);\" class="edui-image-file" type="file" hidefocus name="'+me.editor.getOpt('imageFieldName')+'" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"/>' +
+                '</form>' +
+                '</div>'
+        },
         init: function (editor, $w) {
             var me = this;
 
@@ -169,7 +172,7 @@
         render: function (sel, t) {
             var me = this;
 
-            $(sel, me.dialog).append($(me.uploadTpl.replace(/%%/g, t)));
+            $(sel, me.dialog).append($(me.createUpForm(t)));
 
             return me;
         },
@@ -196,7 +199,7 @@
         submit: function (callback) {
 
             var me = this,
-                input = $( '<input style="filter: alpha(opacity=0);" class="edui-image-file" type="file" hidefocus="" name="upfile" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp">'),
+                input = $( '<input style="filter: alpha(opacity=0);" class="edui-image-file" type="file" hidefocus="" name="'+me.editor.getOpt('imageFieldName')+'" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp">'),
                 input = input[0];
 
             $(me.dialog).delegate( ".edui-image-file", "change", function ( e ) {
